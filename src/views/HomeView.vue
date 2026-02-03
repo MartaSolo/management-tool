@@ -1,9 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
-  <main>
-    <RouterView />
-  </main>
+  <h1>Home Page</h1>
+  <RouterLink to="/projects">Projects Page</RouterLink>
 </template>
 
 <style scoped></style>
