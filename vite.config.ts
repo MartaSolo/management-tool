@@ -23,10 +23,17 @@ export default defineConfig({
         /\.vue\.[tj]sx?\?vue/, // .vue (vue-loader with experimentalInlineMatchResource enabled)
         /\.md$/, // .md
       ],
-      imports: ['vue', VueRouterAutoImports],
+      imports: [
+        'vue',
+        VueRouterAutoImports,
+        {
+          pinia: ['defineStore', 'storeToRefs', 'acceptHMRUpdate'],
+        },
+      ],
       // Filepath to generate corresponding .d.ts file. Defaults to './auto-imports.d.ts' when `typescript` is installed locally.
       dts: true,
       viteOptimizeDeps: true,
+      dirs: ['src/stores'],
     }),
     vue({
       template: {
