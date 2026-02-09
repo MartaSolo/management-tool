@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { supabase } from '@/lib/supabaseClient'
 import type { Tables } from '../../../database/types'
-import { ref, h } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
 import DataTable from '@/components/ui/data-table/DataTable.vue'
 import { RouterLink } from 'vue-router'
@@ -54,6 +53,4 @@ const columns: ColumnDef<Tables<'projects'>>[] = [
   <DataTable v-if="projects?.length" :columns="columns" :data="projects" />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
