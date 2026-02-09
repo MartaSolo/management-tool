@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
-
 const route = useRoute('/projects/[slug]')
 const slug = computed(() => route.params?.slug as string)
 </script>
