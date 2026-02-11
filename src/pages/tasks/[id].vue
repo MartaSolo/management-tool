@@ -6,6 +6,8 @@ const route = useRoute('/tasks/[id]')
 
 const task = ref<Task | null>(null)
 
+const { setError } = useErrorStore()
+
 watch(
   () => task.value?.name,
   () => {
@@ -14,8 +16,8 @@ watch(
 )
 
 const getTask = async () => {
-  const { data, error } = await taskQuery(route.params.id)
-  if (error) console.error(error)
+  const { data, error, status } = await taskQuery(route.params.id)
+  if (error) if (error) setError({ error, customCode: status })
   task.value = data
 }
 

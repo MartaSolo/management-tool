@@ -6,6 +6,8 @@ const route = useRoute('/projects/[slug]')
 
 const project = ref<Project | null>(null)
 
+const { setError } = useErrorStore()
+
 watch(
   () => project.value?.name,
   () => {
@@ -14,10 +16,8 @@ watch(
 )
 
 const getProject = async () => {
-  const { data, error } = await projectQuery(route.params.slug)
-  if (error) {
-    console.error(error)
-  }
+  const { data, error, status } = await projectQuery(route.params.slug)
+  if (error) setError({ error, customCode: status })
   project.value = data
 }
 
