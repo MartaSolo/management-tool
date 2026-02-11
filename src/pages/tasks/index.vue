@@ -5,11 +5,13 @@ import type { TaskWithProject } from '@/utils/supaQueries'
 
 usePageStore().pageData.title = 'My Tasks'
 
+const { setError } = useErrorStore()
+
 const tasks = ref<TaskWithProject | null>(null)
 
 const getTasks = async () => {
-  const { data, error } = await tasksWithProjectsQuery
-  if (error) console.error(error)
+  const { data, error, status } = await tasksWithProjectsQuery
+  if (error) setError({ error, customCode: status })
   tasks.value = data
 }
 
