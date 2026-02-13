@@ -1,5 +1,10 @@
 <script setup lang="ts">
-const formData = ref({
+import { register } from '@/utils/supaAuth'
+import type { RegisterForm } from '@/types/authForm'
+
+const router = useRouter()
+
+const formData = ref<RegisterForm>({
   username: '',
   firstName: '',
   lastName: '',
@@ -7,6 +12,12 @@ const formData = ref({
   password: '',
   confirmPassword: '',
 })
+
+const signUp = async () => {
+  const isRegistered = await register(formData.value)
+
+  if (isRegistered) router.push('/')
+}
 </script>
 
 <template>
@@ -23,7 +34,7 @@ const formData = ref({
           <Button variant="outline" class="w-full"> Register with Google </Button>
           <Separator label="Or" />
         </div>
-        <form class="grid gap-4">
+        <form class="grid gap-4" @submit.prevent="signUp">
           <div class="grid gap-2">
             <Label id="username" class="text-left">Username</Label>
             <Input

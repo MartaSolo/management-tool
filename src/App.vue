@@ -8,6 +8,10 @@ onErrorCaptured((error) => {
     errorStore.setError({ error })
   }
 })
+
+const { trackAuthChanges } = useAuthStore()
+
+onMounted(() => trackAuthChanges())
 </script>
 
 <template>
