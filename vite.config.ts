@@ -33,7 +33,7 @@ export default defineConfig({
       // Filepath to generate corresponding .d.ts file. Defaults to './auto-imports.d.ts' when `typescript` is installed locally.
       dts: true,
       viteOptimizeDeps: true,
-      dirs: ['src/stores'],
+      dirs: ['src/stores/**', 'src/composable/**'],
     }),
     vue({
       template: {

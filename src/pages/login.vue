@@ -9,10 +9,14 @@ const formData = ref<LoginForm>({
   password: '',
 })
 
-const signIn = async () => {
-  const isLoggedIn = await login(formData.value)
+const { serverError, handleServerError } = useFormErrors()
 
-  if (isLoggedIn) router.push('/')
+const signIn = async () => {
+  const { error } = await login(formData.value)
+
+  if (!error) router.push('/')
+
+  if (error) handleServerError(error)
 }
 </script>
 
@@ -37,6 +41,7 @@ const signIn = async () => {
               placeholder="johndoe19@example.com"
               required
               v-model="formData.email"
+              :class="{ 'border-red-500': serverError }"
             />
           </div>
           <div class="grid gap-2">
@@ -50,8 +55,12 @@ const signIn = async () => {
               autocomplete
               required
               v-model="formData.password"
+              :class="{ 'border-red-500': serverError }"
             />
           </div>
+          <ul v-if="serverError" class="text-red-500 text-sm text-left">
+            <li class="list-disc">{{ serverError }}</li>
+          </ul>
           <Button type="submit" class="w-full"> Login </Button>
         </form>
         <div class="mt-4 text-sm text-center">
