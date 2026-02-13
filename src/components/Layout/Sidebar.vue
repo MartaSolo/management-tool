@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { LinkProp } from '@/types/layout'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const links: LinkProp[] = [
   {
@@ -39,7 +42,8 @@ const accountLinks: LinkProp[] = [
 const executeAction = async (linkTitle: string) => {
   if (linkTitle === 'Sign out') {
     const { logout } = await import('@/utils/supaAuth')
-    await logout()
+    const isLoggedOut = await logout()
+    if (isLoggedOut) router.push('/login')
   }
 }
 </script>
