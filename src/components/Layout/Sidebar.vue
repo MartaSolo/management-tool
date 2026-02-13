@@ -33,9 +33,15 @@ const accountLinks: LinkProp[] = [
   {
     title: 'Sign out',
     icon: 'lucide:log-out',
-    to: '/signout',
   },
 ]
+
+const executeAction = async (linkTitle: string) => {
+  if (linkTitle === 'Sign out') {
+    const { logout } = await import('@/utils/supaAuth')
+    await logout()
+  }
+}
 </script>
 
 <template>
@@ -58,7 +64,7 @@ const accountLinks: LinkProp[] = [
       </div>
 
       <div class="border-y text-center bg-background py-3">
-        <SidebarLinks :links="accountLinks" />
+        <SidebarLinks :links="accountLinks" @actionClicked="executeAction" />
       </div>
     </nav>
   </aside>

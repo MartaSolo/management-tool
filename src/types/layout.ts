@@ -1,5 +1,5 @@
 export interface LinkProp {
   title: string
   icon: string
-  to: string
+  to?: string
 }
