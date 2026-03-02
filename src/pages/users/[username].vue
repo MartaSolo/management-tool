@@ -15,6 +15,8 @@ const getProfile = async () => {
 }
 
 await getProfile()
+
+usePageStore().pageData.title = ''
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 import type { Projects, Project } from '@/utils/supaQueries'
 import { useMemoize } from '@vueuse/core'
-import { projectsQuery, projectQuery } from '@/utils/supaQueries'
+import { projectsQuery, projectQuery, updateProjectQuery } from '@/utils/supaQueries'
 
 export const useProjectsStore = defineStore('projects-store', () => {
   const { setError } = useErrorStore()
@@ -66,5 +66,20 @@ export const useProjectsStore = defineStore('projects-store', () => {
     })
   }
 
-  return { projects, getProjects, project, getProject }
+  const updateProject = async () => {
+    if (!project.value) return
+
+    // oxlint-disable-next-line no-unused-vars
+    const { tasks, id, ...projectProperties } = project.value
+
+    await updateProjectQuery(projectProperties, project.value.id)
+  }
+
+  return {
+    projects,
+    getProjects,
+    project,
+    getProject,
+    updateProject,
+  }
 })
