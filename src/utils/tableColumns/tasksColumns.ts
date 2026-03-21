@@ -1,8 +1,13 @@
-import { RouterLink } from 'vue-router'
-import type { TaskWithProject } from '../supaQueries'
 import type { ColumnDef } from '@tanstack/vue-table'
+import type { TaskWithProject } from '../supaQueries'
+import { RouterLink } from 'vue-router'
+import type { GroupedCollabs } from '@/types/groupedCollabs'
+import Avatar from '@/components/ui/avatar/Avatar.vue'
+import AvatarImage from '@/components/ui/avatar/AvatarImage.vue'
+import AvatarFallback from '@/components/ui/avatar/AvatarFallback.vue'
+import AppInPlaceEditStatus from '@/components/AppInPlaceEdit/AppInPlaceEditStatus.vue'
 
-export const columns: ColumnDef<TaskWithProject[0]>[] = [
+export const columns = (collabs: Ref<GroupedCollabs>): ColumnDef<TaskWithProject[0]>[] => [
   {
     accessorKey: 'name',
     header: () => h('div', { class: 'text-left' }, 'Name'),
@@ -10,10 +15,10 @@ export const columns: ColumnDef<TaskWithProject[0]>[] = [
       return h(
         RouterLink,
         {
-          to: `tasks/${row.original.id}`,
+          to: `/tasks/${row.original.id}`,
           class: 'text-left font-medium hover:bg-muted block w-full',
         },
-        () => h('span', row.getValue('name')),
+        () => row.getValue('name'),
       )
     },
   },
@@ -21,7 +26,14 @@ export const columns: ColumnDef<TaskWithProject[0]>[] = [
     accessorKey: 'status',
     header: () => h('div', { class: 'text-left' }, 'Status'),
     cell: ({ row }) => {
-      return h('div', { class: 'text-left font-medium' }, row.getValue('status'))
+      return h(
+        'div',
+        { class: 'text-left font-medium' },
+        h(AppInPlaceEditStatus, {
+          modelValue: row.original.status,
+          readonly: true,
+        }),
+      )
     },
   },
   {
@@ -39,10 +51,10 @@ export const columns: ColumnDef<TaskWithProject[0]>[] = [
         ? h(
             RouterLink,
             {
-              to: `projects/${row.original.projects?.slug}`,
+              to: `/projects/${row.original.projects.slug}`,
               class: 'text-left font-medium hover:bg-muted block w-full',
             },
-            () => h('span', row.original.projects?.name),
+            () => row.original.projects?.name,
           )
         : ''
     },
@@ -53,8 +65,18 @@ export const columns: ColumnDef<TaskWithProject[0]>[] = [
     cell: ({ row }) => {
       return h(
         'div',
-        { class: 'text-left font-medium' },
-        JSON.stringify(row.getValue('collaborators')),
+        { class: 'text-left font-medium h-20 flex items-center' },
+        collabs.value[row.original.id]
+          ? collabs.value[row.original.id].map((collab) => {
+              return h(RouterLink, { to: `/users/${collab.username}` }, () => {
+                return h(Avatar, { class: 'hover:scale-110 transition-transform' }, () =>
+                  h(AvatarImage, { src: collab.avatar_url || '' }),
+                )
+              })
+            })
+          : row.original.collaborators.map(() => {
+              return h(Avatar, { class: 'animate-pulse' }, () => h(AvatarFallback))
+            }),
       )
     },
   },
