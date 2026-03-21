@@ -58,6 +58,7 @@ declare global {
   const toValue: typeof import('vue').toValue
   const triggerRef: typeof import('vue').triggerRef
   const unref: typeof import('vue').unref
+  const use: typeof import('./src/stores/loaders/tasks').use
   const useAttrs: typeof import('vue').useAttrs
   const useAuthStore: typeof import('./src/stores/auth').useAuthStore
   const useCollabs: typeof import('./src/composable/collabs').useCollabs
@@ -74,6 +75,9 @@ declare global {
   const useRouter: typeof import('vue-router').useRouter
   const useSlots: typeof import('vue').useSlots
   const useStore: typeof import('pinia').useStore
+  const useTask: typeof import('./src/stores/loaders/tasks').useTask
+  const useTaskStore: typeof import('./src/stores/loaders/tasks').useTaskStore
+  const useTasksStore: typeof import('./src/stores/loaders/tasks').useTasksStore
   const useTemplateRef: typeof import('vue').useTemplateRef
   const watch: typeof import('vue').watch
   const watchEffect: typeof import('vue').watchEffect

@@ -1,48 +1,45 @@
 <script setup lang="ts">
-import type { LinkProp } from '@/types/layout'
-import { useRouter } from 'vue-router'
+const { profile } = storeToRefs(useAuthStore())
 
-const router = useRouter()
-
-const links: LinkProp[] = [
+const links = [
   {
     title: 'Dashboard',
-    icon: 'lucide:house',
     to: '/',
+    icon: 'lucide:house',
   },
   {
     title: 'Projects',
-    icon: 'lucide:building-2',
     to: '/projects',
+    icon: 'lucide:building-2',
   },
   {
     title: 'My Tasks',
-    icon: 'lucide:badge-check',
     to: '/tasks',
+    icon: 'lucide:badge-check',
   },
 ]
 
-const accountLinks: LinkProp[] = [
-  {
-    title: 'Profile',
-    icon: 'lucide:user',
-    to: '/profile',
-  },
-  {
-    title: 'Settings',
-    icon: 'lucide:settings',
-    to: '/settings',
-  },
-  {
-    title: 'Sign out',
-    icon: 'lucide:log-out',
-  },
-]
+const accountLinks = computed(() => {
+  return [
+    {
+      title: 'Profile',
+      to: `/users/${profile.value?.username}`,
+      icon: 'lucide:user',
+    },
+    {
+      title: 'Sign Out',
+      icon: 'lucide:log-out',
+    },
+  ]
+})
+
+const router = useRouter()
 
 const executeAction = async (linkTitle: string) => {
-  if (linkTitle === 'Sign out') {
+  if (linkTitle === 'Sign Out') {
     const { logout } = await import('@/utils/supaAuth')
     const isLoggedOut = await logout()
+
     if (isLoggedOut) router.push('/login')
   }
 }
@@ -73,5 +70,3 @@ const executeAction = async (linkTitle: string) => {
     </nav>
   </aside>
 </template>
-
-<style scoped></style>
