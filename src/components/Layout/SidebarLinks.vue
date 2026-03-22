@@ -12,6 +12,8 @@ const emit = defineEmits<{
 const emitActionClicked = (linkTitle: string) => {
   emit('actionClicked', linkTitle)
 }
+
+const { menuOpen } = useMenu()
 </script>
 
 <template>
@@ -21,14 +23,24 @@ const emitActionClicked = (linkTitle: string) => {
       :to="link.to"
       class="nav-link"
       exact-active-class="bg-muted text-primary"
+      :class="{ 'justify-normal': menuOpen, 'justify-center': !menuOpen }"
     >
       <iconify-icon :icon="link.icon"></iconify-icon>
-      <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
+      <span class="text-nowrap" :class="{ block: menuOpen, hidden: !menuOpen }">
+        {{ link.title }}
+      </span>
     </RouterLink>
 
-    <div v-else class="nav-link cursor-pointer" @click="emitActionClicked(link.title)">
+    <div
+      v-else
+      class="nav-link cursor-pointer"
+      :class="{ 'justify-normal': menuOpen, 'justify-center': !menuOpen }"
+      @click="emitActionClicked(link.title)"
+    >
       <iconify-icon :icon="link.icon"></iconify-icon>
-      <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
+      <span class="text-nowrap" :class="{ block: menuOpen, hidden: !menuOpen }">
+        {{ link.title }}
+      </span>
     </div>
   </template>
 </template>
@@ -37,6 +49,6 @@ const emitActionClicked = (linkTitle: string) => {
 @reference "../../assets/style.css";
 
 .nav-link {
-  @apply flex items-center gap-3 px-4 py-2 mx-2 transition-colors rounded-lg hover:text-primary justify-center lg:justify-normal text-muted-foreground;
+  @apply flex items-center gap-3 px-4 py-2 mx-2 transition-colors rounded-lg hover:text-primary  text-muted-foreground;
 }
 </style>
