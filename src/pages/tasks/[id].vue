@@ -119,7 +119,7 @@ const triggerDelete = async () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 @reference '../../assets/style.css';
 
 th {
